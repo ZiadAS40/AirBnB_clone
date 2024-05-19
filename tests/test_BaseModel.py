@@ -1,38 +1,37 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
+
+
+"""the unittest for the base model"""
+
+
 import unittest
-from datetime import datetime
 from models.base_model import BaseModel
-"""
-testing the BaseMode class
-"""
+from datetime import datetime
+import time
 
+class TestBaseModel(unittest.TestCase):
+    """test the base model"""
+    def test_initialization(self):
+        model = BaseModel()
+        self.assertIsInstance(model, BaseModel)
+        self.assertIsInstance(model.id, str)
+        self.assertIsInstance(model.created_at, datetime)
+        self.assertIsInstance(model.updated_at, datetime)
+    
+    def test_save(self):
+        model = BaseModel()
+        old_updated_at = model.updated_at
+        time.sleep(1)
+        model.save()
+        self.assertNotEqual(old_updated_at, model.updated_at)
 
-class TestModel(unittest.TestCase):
-    def setUp(self):
-        self.to_base = BaseModel()
-        self.my_dict = self.to_base.to_dict()
-        self.my_dict["name"] = "Ziad"
-        self.from_base = BaseModel(**self.my_dict)
-        cestr = "2017-06-14T22:31:03.285259"
-        self.base = BaseModel(**{"id": 34, "created_at": cestr})
+    def test_to_dict(self):
+        model = BaseModel()
+        model_dict = model.to_dict()
+        self.assertEqual(model_dict['id'], model.id)
+        self.assertEqual(model_dict['created_at'], model.created_at.isoformat())
+        self.assertEqual(model_dict['updated_at'], model.updated_at.isoformat())
+        self.assertEqual(model_dict['__class__'], 'BaseModel')
 
-    def test_certain_id(self):
-        self.assertEqual(self.base.id, 34)
-
-    def test_certain_created_at(self):
-        cestr = "2017-06-14T22:31:03.285259"
-        sestr = "%Y-%m-%dT%H:%M:%S.%f"
-        self.assertEqual(self.base.created_at, datetime.strptime(cestr, sestr))
-
-    def test_normal_id(self):
-        self.assertEqual(self.to_base.id, self.from_base.id)
-
-    def test_normal_created_at(self):
-        self.assertEqual(self.to_base.created_at, self.from_base.created_at)
-
-    def test_dict_attrs(self):
-        self.assertEqual(self.from_base.name, "Ziad")
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
