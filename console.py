@@ -4,6 +4,7 @@ import cmd
 
 
 class HBNBCommand(cmd.Cmd):
+    """the command iterpreter for the console"""
     prompt = "(hbnb) "
 
     def do_quite(self, arg):
