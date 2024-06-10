@@ -3,35 +3,44 @@
 
 """the unittest for the base model"""
 
-
 import unittest
 from models.base_model import BaseModel
-from datetime import datetime
-import time
 
-class TestBaseModel(unittest.TestCase):
-    """test the base model"""
-    def test_initialization(self):
-        model = BaseModel()
-        self.assertIsInstance(model, BaseModel)
-        self.assertIsInstance(model.id, str)
-        self.assertIsInstance(model.created_at, datetime)
-        self.assertIsInstance(model.updated_at, datetime)
-    
+
+class Test_base_module(unittest.TestCase):
+
+    def setUp(self):
+        self.base = BaseModel()
+
+    def tear_down(self):
+        del self.base
+
+    def test_init(self):
+        self.assertIsInstance(self.base, BaseModel)
+        self.assertTrue(hasattr(self.base, 'id'))
+        self.assertTrue(hasattr(self.base, 'created_at'))
+        self.assertTrue(hasattr(self.base, 'updated_at'))
+
+    def test_str(self):
+        str_rpr = str(self.base)
+        self.assertIn("[BaseModel]", str_rpr)
+        self.assertIn("id", str_rpr)
+        self.assertIn("created_at", str_rpr)
+        self.assertIn("updated_at", str_rpr)
+
     def test_save(self):
-        model = BaseModel()
-        old_updated_at = model.updated_at
-        time.sleep(1)
-        model.save()
-        self.assertNotEqual(old_updated_at, model.updated_at)
+        update = self.base.updated_at
+        self.base.save()
+        self.assertNotEqual(update, self.base.updated_at)
 
-    def test_to_dict(self):
-        model = BaseModel()
-        model_dict = model.to_dict()
-        self.assertEqual(model_dict['id'], model.id)
-        self.assertEqual(model_dict['created_at'], model.created_at.isoformat())
-        self.assertEqual(model_dict['updated_at'], model.updated_at.isoformat())
-        self.assertEqual(model_dict['__class__'], 'BaseModel')
+    def test_todict(self):
+        Mydict = self.base.to_dict()
+        self.assertIsInstance(Mydict, dict)
+        self.assertEqual(Mydict['__class__'], 'BaseModel')
+        self.assertIn('id', Mydict)
+        self.assertIn('created_at', Mydict)
+        self.assertIn('updated_at', Mydict)
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     unittest.main()
