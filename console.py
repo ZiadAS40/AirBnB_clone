@@ -26,12 +26,13 @@ class HBNBCommand(cmd.Cmd):
         """create an instance of the obj class"""
         if len(line.split()) == 0:
             print("** class name missing **")
-        if line in self.objs:
-            l_obj = eval(line + "()")
-            l_obj.save()
-            print(l_obj.id)
         else:
-            print("** class doesn't exist **")
+            if line in self.objs:
+                l_obj = eval(line + "()")
+                l_obj.save()
+                print(l_obj.id)
+            else:
+                print("** class doesn't exist **")
 
     def do_show(self, line):
         """show the string representation of an instance"""
