@@ -30,9 +30,9 @@ class HBNBCommand(cmd.Cmd):
                 l_obj.save()
                 print(l_obj.id)
             else:
-                print("** class doesn't exist **")
+                print("** class name missing **")
         else:
-            print("** class name missing **")
+            print("** class doesn't exist **")
 
     def do_show(self, line):
         """show the string representation of an instance"""
