@@ -90,45 +90,32 @@ class HBNBCommand(cmd.Cmd):
 
     def do_update(self, line):
         """update an attribute for instance"""
-        parts = line.split()
-        if len(line.split()) < 1:
+        parts = line.split(' ')
+        if len(parts) < 1:
             print("** class name missing **")
-            self.cmdloop(intro='')
-        if len(line.split()) < 2:
+        elif len(parts) < 2:
             print("** instance id missing **")
-            self.cmdloop(intro='')
-        if len(line.split()) < 3:
+        elif len(parts) < 3:
             print("** attribute name missing **")
-            self.cmdloop(intro='')
-        if len(line.split()) < 4:
+        elif len(parts) < 4:
             print("** value missing **")
-            self.cmdloop(intro='')
-        if len(parts) == 4:
-            ob, ob_id, attr, valueA = parts
         else:
-            self.cmdloop(intro='')
-        flagO = 0
-        flag = 0
-
-        for key, value in storage._FileStorage__objects.items():
-            keyW = key.split('.')
-            if keyW[0] == ob:
-                flagO = 1
-                if keyW[1] == ob_id:
-                    flag = 1
-        if flag == 0:
-            print("** no instance found **")
-        if flagO == 0:
-            print("** class doesn't exist **")
-        tType = type(attr)
-        vlueB = tType(valueA)
-        if flagO == 1 and flag == 1:
-            mydict = storage._FileStorage__objects[ob + '.' + ob_id].to_dict()
-            mydict[attr] = vlueB
-            del storage._FileStorage__objects[ob + '.' + ob_id]
-            cls = eval(ob + "(**mydict)")
-            storage.new(cls)
-        storage.save()
+            ob, ob_id, attr, valueA = parts
+            if ob in self.objs:
+                ssr = ob + '.' + ob_id
+                if ssr in storage._FileStorage__objects:
+                    tType = type(attr)
+                    vlueB = tType(valueA)
+                    mydict = storage._FileStorage__objects[ob + '.' + ob_id].to_dict()
+                    mydict[attr] = vlueB
+                    del storage._FileStorage__objects[ob + '.' + ob_id]
+                    cls = eval(ob + "(**mydict)")
+                    storage.new(cls)
+                    storage.save()
+                else:
+                    print("** no instance found **")
+            else:
+                print("** class doesn't exist **")
 
     def do_EOF(self, line):
         """activate the end of file signal"""
