@@ -24,9 +24,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, line):
         """create an instance of the obj class"""
-        if line == "" or line is None:
+        if len(line.split()) == 0:
             print("** class name missing **")
-            self.cmdloop(intro='')
         if line in self.objs:
             l_obj = eval(line + "()")
             l_obj.save()
@@ -36,7 +35,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, line):
         """show the string representation of an instance"""
-        if len(line.split(' ')) == 0:
+        parts = line.split()
+        if len(parts) == 0:
             print("** class name missing **")
         elif len(line.split(' ')) < 2:
             print("** instance id missing **")
@@ -53,7 +53,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_destroy(self, line):
         """delete an instance based on name and id"""
-        if len(line.split(' ')) == 0:
+        if len(line.split()) == 0:
             print("** class name missing **")
         elif len(line.split(' ')) < 2:
             print("** instance id missing **")
@@ -68,9 +68,6 @@ class HBNBCommand(cmd.Cmd):
                     print("** no instance found **")
             else:
                 print("** class doesn't exist **")
-
-
-
 
     def do_all(self, line):
         """show all the instances"""
@@ -90,7 +87,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_update(self, line):
         """update an attribute for instance"""
-        parts = line.split(' ')
+        parts = line.split()
         if len(parts) < 1:
             print("** class name missing **")
         elif len(parts) < 2:
