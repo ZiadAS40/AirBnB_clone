@@ -22,12 +22,8 @@ class HBNBCommand(cmd.Cmd):
         """quit the program"""
         return True
 
-    def do_create(self, line):
+    def do_create(self, obj):
         """create an instance of the obj class"""
-        obj = line.split()
-        if len(line.split()) == 0:
-            print("** class name missing **")
-            raise SkipCommand()
         if obj is not None:
             if obj in self.objs:
                 l_obj = eval(obj + "()")
@@ -35,6 +31,8 @@ class HBNBCommand(cmd.Cmd):
                 print(l_obj.id)
             else:
                 print("** class doesn't exist **")
+        else:
+            print("** class name missing **")
 
     def do_show(self, line):
         """show the string representation of an instance"""
