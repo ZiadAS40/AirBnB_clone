@@ -36,7 +36,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, line):
         """show the string representation of an instance"""
-        if line == "" and line is None:
+        if len(line.split(' ')) == 0:
             print("** class name missing **")
         elif len(line.split(' ')) < 2:
             print("** instance id missing **")
@@ -53,40 +53,21 @@ class HBNBCommand(cmd.Cmd):
 
     def do_destroy(self, line):
         """delete an instance based on name and id"""
-        storage.reload()
-        parts = line.split()
-        if len(line.split()) < 1:
+        if len(line.split(' ')) == 0:
             print("** class name missing **")
-            self.cmdloop(intro='')
-        if len(line.split()) < 2:
+        elif len(line.split(' ')) < 2:
             print("** instance id missing **")
-            self.cmdloop(intro='')
-
-        if len(line.split()) == 2:
-            obj, obj_id = parts
         else:
-            self.cmdloop(intro='')
-        flagO = 0
-        flag = 0
+            parts = line.split(' ')
+            ssr = parts[0] + '.' + parts[1]
+            if ssr in storage._FileStorage__objects:
+                del storage._FileStorage__objects[ssr]
+                storage.save()
 
-        for key, value in storage._FileStorage__objects.items():
-            keyW = key.split('.')
-            if keyW[0] == obj:
-                flagO = 1
-                if keyW[1] == obj_id:
-                    flag = 1
-        if flag == 0:
-            print("** no instance found **")
-        if flagO == 0:
-            print("** class doesn't exist **")
 
-        if flagO == 1 and flag == 1:
-            del storage._FileStorage__objects[obj + '.' + obj_id]
-        storage.save()
 
     def do_all(self, line):
         """show all the instances"""
-        storage.reload()
         parts = line.split()
         flag = 0
         if len(line.split()) == 0:
