@@ -40,10 +40,10 @@ class HBNBCommand(cmd.Cmd):
         parts = line.split()
         if len(line.split()) < 1:
             print("** class name missing **")
-            raise SkipCommand()
+            self.cmdloop(intro='')
         elif len(line.split()) < 2:
             print("** instance id missing **")
-            raise SkipCommand()
+            self.cmdloop(intro='')
 
         obj, obj_id = parts
         flagO = 0
@@ -67,10 +67,10 @@ class HBNBCommand(cmd.Cmd):
         parts = line.split()
         if len(line.split()) < 1:
             print("** class name missing **")
-            raise SkipCommand()
+            self.cmdloop(intro='')
         if len(line.split()) < 2:
             print("** instance id missing **")
-            raise SkipCommand()
+            self.cmdloop(intro='')
 
         obj, obj_id = parts
         flagO = 0
@@ -113,16 +113,16 @@ class HBNBCommand(cmd.Cmd):
         parts = line.split()
         if len(line.split()) < 1:
             print("** class name missing **")
-            raise SkipCommand()
+            self.cmdloop(intro='')
         if len(line.split()) < 2:
             print("** instance id missing **")
-            raise SkipCommand()
+            self.cmdloop(intro='')
         if len(line.split()) < 3:
             print("** attribute name missing **")
-            raise SkipCommand()
+            self.cmdloop(intro='')
         if len(line.split()) < 4:
             print("** value missing **")
-            raise SkipCommand()
+            self.cmdloop(intro='')
 
         ob, ob_id, attr, valueA = parts
         flagO = 0
@@ -155,17 +155,6 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         """when an empty line entered nothing will happen"""
         pass
-
-    def cmdloop(self, intro=None):
-        """override the cmdloop to handle the SkipCommand exception"""
-        self.intro = intro
-
-        while True:
-            try:
-                super().cmdloop(intro='')
-                break
-            except SkipCommand:
-                pass
 
 
 if __name__ == '__main__':
