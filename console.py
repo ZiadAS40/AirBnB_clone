@@ -24,15 +24,15 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, obj):
         """create an instance of the obj class"""
-        if obj is not None or obj == "":
+        if obj == "" or obj is None:
+            print("** class name missing **")
+        if obj is not None:
             if obj in self.objs:
                 l_obj = eval(obj + "()")
                 l_obj.save()
                 print(l_obj.id)
             else:
                 print("** class doesn't exist **")
-        else:
-            print("** class name missing **")
 
     def do_show(self, line):
         """show the string representation of an instance"""
