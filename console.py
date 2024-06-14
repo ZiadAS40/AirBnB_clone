@@ -24,7 +24,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, obj):
         """create an instance of the obj class"""
-        if obj is not None:
+        if obj is not None or obj == "":
             if obj in self.objs:
                 l_obj = eval(obj + "()")
                 l_obj.save()
@@ -45,7 +45,10 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             self.cmdloop(intro='')
 
-        obj, obj_id = parts
+        if len(line.split()) == 2:
+            obj, obj_id = parts
+        else:
+            self.cmdloop(intro='')
         flagO = 0
         flag = 0
 
@@ -72,7 +75,10 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             self.cmdloop(intro='')
 
-        obj, obj_id = parts
+        if len(line.split()) == 2:
+            obj, obj_id = parts
+        else:
+            self.cmdloop(intro='')
         flagO = 0
         flag = 0
 
@@ -123,8 +129,10 @@ class HBNBCommand(cmd.Cmd):
         if len(line.split()) < 4:
             print("** value missing **")
             self.cmdloop(intro='')
-
-        ob, ob_id, attr, valueA = parts
+        if len(parts) == 4:
+            ob, ob_id, attr, valueA = parts
+        else:
+            self.cmdloop(intro='')
         flagO = 0
         flag = 0
 
@@ -150,6 +158,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_EOF(self, line):
         """activate the end of file signal"""
+        print()
         return True
 
     def emptyline(self):
