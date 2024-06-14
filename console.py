@@ -22,13 +22,13 @@ class HBNBCommand(cmd.Cmd):
         """quit the program"""
         return True
 
-    def do_create(self, obj):
+    def do_create(self, line):
         """create an instance of the obj class"""
-        if obj == "" or obj is None:
+        if line == "" or line is None:
             print("** class name missing **")
-        if obj is not None:
-            if obj in self.objs:
-                l_obj = eval(obj + "()")
+        if line is not None:
+            if line in self.objs:
+                l_obj = eval(line + "()")
                 l_obj.save()
                 print(l_obj.id)
             else:
