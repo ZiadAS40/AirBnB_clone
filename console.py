@@ -60,9 +60,15 @@ class HBNBCommand(cmd.Cmd):
         else:
             parts = line.split(' ')
             ssr = parts[0] + '.' + parts[1]
-            if ssr in storage._FileStorage__objects:
-                del storage._FileStorage__objects[ssr]
-                storage.save()
+            if parts[0] in self.objs:
+                if ssr in storage._FileStorage__objects:
+                    del storage._FileStorage__objects[ssr]
+                    storage.save()
+                else:
+                    print("** no instance found **")
+            else:
+                print("** class doesn't exist **")
+
 
 
 
