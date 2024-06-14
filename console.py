@@ -26,7 +26,7 @@ class HBNBCommand(cmd.Cmd):
         """create an instance of the obj class"""
         if line == "" or line is None:
             print("** class name missing **")
-            self.cmdloop(intro="")
+            self.cmdloop(intro='')
         if line in self.objs:
             l_obj = eval(line + "()")
             l_obj.save()
@@ -36,33 +36,20 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, line):
         """show the string representation of an instance"""
-        storage.reload()
-        parts = line.split()
-        if len(line.split()) < 1:
+        if line == "" and line is None:
             print("** class name missing **")
-            self.cmdloop(intro='')
-        elif len(line.split()) < 2:
+        elif len(line.split(' ')) < 2:
             print("** instance id missing **")
-            self.cmdloop(intro='')
-
-        if len(line.split()) == 2:
-            obj, obj_id = parts
         else:
-            self.cmdloop(intro='')
-        flagO = 0
-        flag = 0
-
-        for key, value in storage._FileStorage__objects.items():
-            keyW = key.split('.')
-            if keyW[0] == obj:
-                flagO = 1
-                if keyW[1] == obj_id:
-                    print(value)
-                    flag = 1
-        if flagO == 0:
-            print("** class doesn't exist **")
-        if flag == 0:
-            print("** no instance found **")
+            parts = line.split(' ')
+            ssr = parts[0] + '.' + parts[1]
+            if parts[0] in self.objs:
+                if ssr in storage._FileStorage__objects:
+                    print(storage._FileStorage__objects[ssr])
+                else:
+                    print("** no instance found **")
+            else:
+                print("** class doesn't exist **")
 
     def do_destroy(self, line):
         """delete an instance based on name and id"""
