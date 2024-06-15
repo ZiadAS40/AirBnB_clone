@@ -8,12 +8,17 @@ from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 from models.base_model import storage
 from models.user import User
+from models.state import State
+from models.city import City
+from models.place import Place
+from models.review import Review
+from models.amenity import Amenity
 
 
 class HBNBCommand(cmd.Cmd):
     """the command iterpreter for the console"""
     prompt = "(hbnb) "
-    objs = ["BaseModel", "User"]
+    objs = ["BaseModel", "User", "State", "City", "Place", "Review", "Amenity"]
 
     def do_quit(self, arg):
         """quit the program"""
