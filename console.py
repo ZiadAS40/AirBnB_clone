@@ -7,16 +7,13 @@ import cmd
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 from models.base_model import storage
-
-
-class SkipCommand(Exception):
-    pass
+from models.user import User
 
 
 class HBNBCommand(cmd.Cmd):
     """the command iterpreter for the console"""
     prompt = "(hbnb) "
-    objs = ["BaseModel"]
+    objs = ["BaseModel", "User"]
 
     def do_quit(self, arg):
         """quit the program"""
@@ -104,7 +101,8 @@ class HBNBCommand(cmd.Cmd):
                 if ssr in storage._FileStorage__objects:
                     tType = type(attr)
                     vlueB = tType(valueA)
-                    mydict = storage._FileStorage__objects[ob + '.' + ob_id].to_dict()
+                    mydict = (storage._FileStorage__objects[ob + '.' + ob_id].
+                              to_dict())
                     mydict[attr] = vlueB
                     del storage._FileStorage__objects[ob + '.' + ob_id]
                     cls = eval(ob + "(**mydict)")

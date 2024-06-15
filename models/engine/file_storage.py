@@ -39,6 +39,7 @@ class FileStorage():
         try:
             with open(FileStorage.__file_path, encoding="utf-8") as json_file:
                 from models.base_model import BaseModel
+                from models.user import User
                 myLoader = json.load(json_file)
 
                 for key, value in myLoader.items():
